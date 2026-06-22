@@ -26,7 +26,7 @@ app.get("/colleges", (req, res) => {
   res.json("okay");
 });
 
-console.log("JWT_SECRET =", process.env.JWT_SECRET);
+
 
 app.use("/api/auth" , authroutes);
 
