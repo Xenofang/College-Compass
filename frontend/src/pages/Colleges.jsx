@@ -8,7 +8,7 @@ import {
   SlidersHorizontal,
   X,
 } from "lucide-react";
-import { SectionLabel } from "./component/shared.jsx";
+import { SectionLabel } from "./component/Shared.jsx";
 
 const ALL_COLLEGES = [
   { name: "Indian Institute of Technology, Delhi", location: "New Delhi", state: "Delhi", course: "Engineering", fees: "₹2.5L/yr", rating: 4.8, color: "from-blue-500 to-blue-700" },

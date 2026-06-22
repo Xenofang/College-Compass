@@ -1,6 +1,6 @@
 import  { useState } from "react";
 import { Plus, X, Star, GraduationCap, Check, Minus } from "lucide-react";
-import { SectionLabel } from "./component/shared.jsx";
+import { SectionLabel } from "./component/Shared.jsx";
 
 const CATALOG = [
   { name: "IIT Delhi", location: "New Delhi", rating: 4.8, fees: "₹2.5L/yr", course: "Engineering", placement: "₹18L avg", hostel: true, color: "from-blue-500 to-blue-700" },
