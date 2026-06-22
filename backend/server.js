@@ -1,7 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const connectDB = require("./config/db")
-const User = require("./models/User");
+const User = require("./models/user");
 const College = require("./models/college");
 const userRoutes = require("./routes/userRoutes");
 
