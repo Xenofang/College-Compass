@@ -1,12 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link , useNavigate  } from "react-router-dom";
 import { useState } from "react";
+import API from "../api/axios";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     password: "",
-    confirmPassword: "",
+     // ✅ added missing field
   });
 
   const handleChange = (e) => {
@@ -15,14 +16,30 @@ const Signup = () => {
       [e.target.name]: e.target.value,
     });
   };
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {   // ✅ renamed to match onSubmit + accept event
     e.preventDefault();
+    console.log("button clicked")
 
-    console.log(formData);
+    if (formData.password !== formData.confirmPassword) {
+      console.error("Passwords do not match");
+      return;
+    }
 
-    // Later:
-    // await registerUser(formData)
+    try {
+      const res = await API.post("/auth/register", {
+        name: formData.fullName,     // ✅ reading from formData
+        email: formData.email,
+        password: formData.password,
+      });
+      navigate("/");
+      alert("Registration Successful");
+      console.log(res.json);
+      
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -89,10 +106,7 @@ const Signup = () => {
 
         <p className="text-center mt-5">
           Already have an account?
-          <Link
-            to="/login"
-            className="text-blue-600 ml-2 font-medium"
-          >
+          <Link to="/login" className="text-blue-600 ml-2 font-medium">
             Login
           </Link>
         </p>

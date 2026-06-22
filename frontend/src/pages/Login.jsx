@@ -1,5 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link ,useNavigate } from "react-router-dom";
 import { useState } from "react";
+import API from "../api/axios";
+
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -13,16 +15,29 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    console.log(formData);
+  try {
+    const res = await API.post("/auth/login", formData);
 
-    // Later:
-    // await loginUser(formData)
-  };
+    console.log(res.data);
 
+    localStorage.setItem("token", res.data.token);
+    window.dispatchEvent(new Event("authChange"));
+
+    alert("Login Successful");
+
+    navigate("/")
+  } catch (error) {
+    console.error(error);
+
+    alert(
+      error.response?.data?.message || "Login Failed"
+    );
+  }
+};
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-md">
