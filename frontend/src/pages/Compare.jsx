@@ -25,7 +25,7 @@ const PickerCard = ({ college, selected, disabled, onToggle }) => (
         : "border-slate-200 bg-white hover:border-blue-300"
     }`}
   >
-    <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${college.color}`}>
+    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${college.color}`}>
       <GraduationCap className="h-5 w-5 text-white/90" />
     </div>
     <div className="min-w-0 flex-1">
@@ -33,7 +33,7 @@ const PickerCard = ({ college, selected, disabled, onToggle }) => (
       <p className="truncate text-xs text-slate-500">{college.location}</p>
     </div>
     <div
-      className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 ${
+      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 ${
         selected ? "border-blue-600 bg-blue-600" : "border-slate-300"
       }`}
     >
