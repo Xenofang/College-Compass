@@ -6,7 +6,7 @@ const NAV_LINKS = [
   { label: "Home", key: "home" },
   { label: "Colleges", key: "colleges" },
   { label: "Compare", key: "compare" },
-  { label: "About", key: "about" },
+  { label: "Profile", key: "profile" },
 ];
 
 const Navbar = ({ activePage = "home", onNavigate = () => {} }) => {

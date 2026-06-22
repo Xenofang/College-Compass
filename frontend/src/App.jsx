@@ -1,30 +1,50 @@
-import  { useState } from "react";
-import Navbar from "./pages/component/Navbar.jsx";
-import Footer from "./pages/component/Footer.jsx";
-import Home from "./pages/Home.jsx";
-import Colleges from "./pages/Colleges.jsx";
-import Compare from "./pages/Compare.jsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-const PAGES = {
-  home: Home,
-  colleges: Colleges,
-  compare: Compare,
-};
+import Navbar from "./pages/component/Navbar";
+import Footer from "./pages/component/Footer";
 
-export default function App() {
-  const [activePage, setActivePage] = useState("home");
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/SignUp";
+import Compare from "./pages/Compare";
+import Colleges from "./pages/Colleges";
 
-  const ActivePageComponent = PAGES[activePage] || Home;
-
+function App() {
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 antialiased">
-      <Navbar activePage={activePage} onNavigate={setActivePage} />
-      <main>
-        <ActivePageComponent onNavigate={setActivePage} />
-      </main>
-      <Footer onNavigate={setActivePage} />
-    </div>
+    <BrowserRouter>
+      <div className="min-h-screen flex flex-col bg-slate-50">
+        
+        <Navbar />
 
-    
+        <main className="grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/colleges" element={<Colleges />} />
+            <Route path="/compare" element={<Compare />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+
+            {/* Future Routes */}
+            {/* <Route path="/profile" element={<Profile />} /> */}
+            {/* <Route path="/saved-colleges" element={<SavedColleges />} /> */}
+
+            <Route
+              path="*"
+              element={
+                <div className="flex items-center justify-center min-h-[60vh]">
+                  <h1 className="text-3xl font-bold">
+                    404 - Page Not Found
+                  </h1>
+                </div>
+              }
+            />
+          </Routes>
+        </main>
+
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 }
+
+export default App;
