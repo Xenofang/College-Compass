@@ -3,7 +3,7 @@ require("dotenv").config();
 const connectDB = require("./config/db")
 const User = require("./models/user");
 const College = require("./models/college");
-const userRoutes = require("./routes/userRoutes");
+const userRoutes = require("./routes/userroutes");
 
 const authroutes = require("./routes/authroutes");
 
