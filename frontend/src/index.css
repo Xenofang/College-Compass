@@ -18,14 +18,9 @@ body {
 }
 
 
-@keyframes loading {
-  0% {
-    width: 0%;
-  }
-  50% {
-    width: 70%;
-  }
-  100% {
-    width: 100%;
-  }
+/* in your global CSS or tailwind.config.js theme.extend */
+@keyframes loading-fill {
+  0% { width: 0%; }
+  50% { width: 90%; }
+  100% { width: 100%; }
 }

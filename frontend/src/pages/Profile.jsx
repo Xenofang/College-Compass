@@ -5,10 +5,11 @@ import { getProfile } from "../api/axios";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
-
+  const [minTimeElapsed, setMinTimeElapsed] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const timer = setTimeout(() => setMinTimeElapsed(true), 1230);
     const fetchProfile = async () => {
       try {
         const res = await getProfile();
@@ -19,8 +20,8 @@ const Profile = () => {
         navigate("/login");
       }
     };
-
     fetchProfile();
+    return () => clearTimeout(timer);
   }, [navigate]);
 
   const logout = () => {
@@ -29,22 +30,20 @@ const Profile = () => {
     navigate("/");
   };
 
- if (!user)
+ if (!user || !minTimeElapsed)
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="w-80">
-        <div className="flex justify-between mb-2">
-          <span className="text-sm font-medium">Loading Profile...</span>
-          <span className="text-sm font-medium">75%</span>
-        </div>
+      <div className="w-80 text-center">
+        <div className="w-14 h-14 rounded-full border-4 border-gray-200 border-t-blue-600 mx-auto mb-5 animate-spin"></div>
 
-        <div className="w-full bg-gray-200 rounded-full h-3">
-          <div className="bg-blue-600 h-3 rounded-full animate-pulse w-3/4"></div>
+        <span className="text-sm font-medium block mb-2">Loading Profile...</span>
+
+        <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden relative">
+          <div className="absolute h-full w-2/5 bg-blue-600 rounded-full animate-slide"></div>
         </div>
       </div>
     </div>
   );
-
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center py-10">
       <div className="w-full max-w-4xl bg-white rounded-xl shadow-lg p-8">
