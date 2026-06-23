@@ -29,12 +29,21 @@ const Profile = () => {
     navigate("/");
   };
 
-  if (!user)
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        Loading...
+ if (!user)
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="w-80">
+        <div className="flex justify-between mb-2">
+          <span className="text-sm font-medium">Loading Profile...</span>
+          <span className="text-sm font-medium">75%</span>
+        </div>
+
+        <div className="w-full bg-gray-200 rounded-full h-3">
+          <div className="bg-blue-600 h-3 rounded-full animate-pulse w-3/4"></div>
+        </div>
       </div>
-    );
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center py-10">

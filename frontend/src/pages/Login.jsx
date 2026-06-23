@@ -3,35 +3,34 @@ import { useState } from "react";
 import { loginUser } from "../api/axios";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [disabled, setdisabled] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      setdisabled(true);
+      setLoading(true);
+
       const res = await loginUser(formData);
 
       localStorage.setItem("token", res.data.token);
+      window.dispatchEvent(new Event("authChange"));
 
       alert("Login Successful");
-      localStorage.setItem("token", res.data.token);
-      window.dispatchEvent(new Event("authChange"));
-      
       navigate("/");
     } catch (error) {
       alert(error.response?.data?.message || "Login Failed");
-      setdisabled(false);
+      setLoading(false);
     }
   };
   return (
@@ -72,14 +71,23 @@ const Login = () => {
 
           <button
             type="submit"
-            disabled={disabled}
+            disabled={loading}
             className={`w-full py-3 rounded-lg text-white ${
-              disabled
+              loading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            {disabled ? "Logging in..." : "Login"}
+            {loading ? (
+              <div className="flex items-center justify-center gap-3">
+                <div className="w-24 h-1.5 bg-gray-300 rounded-full overflow-hidden">
+                  <div className="h-full bg-white animate-[loading_1.5s_ease-in-out_infinite]"></div>
+                </div>
+                <span>Logging in...</span>
+              </div>
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
 
