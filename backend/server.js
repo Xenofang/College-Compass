@@ -28,9 +28,9 @@ app.get("/colleges", (req, res) => {
 
 
 
-app.use("/api/auth" , authroutes);
+app.use("/auth" , authroutes);
 
-app.use("/api/user", userRoutes);
+app.use("/user", userRoutes);
 
 
 

@@ -1,14 +1,13 @@
-import { Link ,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import API from "../api/axios";
-
+import { loginUser } from "../api/axios";
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
+  const [disabled, setdisabled] = useState(false);
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -17,40 +16,34 @@ const Login = () => {
   };
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const res = await API.post("/auth/login", formData);
+    try {
+      setdisabled(true);
+      const res = await loginUser(formData);
 
-    console.log(res.data);
+      localStorage.setItem("token", res.data.token);
 
-    localStorage.setItem("token", res.data.token);
-    window.dispatchEvent(new Event("authChange"));
-
-    alert("Login Successful");
-
-    navigate("/")
-  } catch (error) {
-    console.error(error);
-
-    alert(
-      error.response?.data?.message || "Login Failed"
-    );
-  }
-};
+      alert("Login Successful");
+      localStorage.setItem("token", res.data.token);
+      window.dispatchEvent(new Event("authChange"));
+      
+      navigate("/");
+    } catch (error) {
+      alert(error.response?.data?.message || "Login Failed");
+      setdisabled(false);
+    }
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-md">
-        <h2 className="text-3xl font-bold text-center mb-2">
-          Welcome Back
-        </h2>
+        <h2 className="text-3xl font-bold text-center mb-2">Welcome Back</h2>
 
         <p className="text-gray-500 text-center mb-6">
           Login to College Compass
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-
           <div>
             <label className="block mb-2">Email</label>
             <input
@@ -79,18 +72,20 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700"
+            disabled={disabled}
+            className={`w-full py-3 rounded-lg text-white ${
+              disabled
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
           >
-            Login
+            {disabled ? "Logging in..." : "Login"}
           </button>
         </form>
 
         <p className="text-center mt-5">
           Don't have an account?
-          <Link
-            to="/signup"
-            className="text-blue-600 ml-2 font-medium"
-          >
+          <Link to="/signup" className="text-blue-600 ml-2 font-medium">
             Sign Up
           </Link>
         </p>

@@ -1,13 +1,12 @@
-import { Link , useNavigate  } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import API from "../api/axios";
-
+import { registerUser } from "../api/axios";
 const Signup = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     password: "",
-     // ✅ added missing field
+    confirmPassword: "",
   });
 
   const handleChange = (e) => {
@@ -18,44 +17,42 @@ const Signup = () => {
   };
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {   // ✅ renamed to match onSubmit + accept event
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("button clicked")
 
     if (formData.password !== formData.confirmPassword) {
-      console.error("Passwords do not match");
+      alert("Passwords do not match");
       return;
     }
 
     try {
-      const res = await API.post("/auth/register", {
-        name: formData.fullName,     // ✅ reading from formData
+      const res = await registerUser({
+        name: formData.fullName,
         email: formData.email,
         password: formData.password,
       });
-      navigate("/");
+
+      localStorage.setItem("token", res.data.token);
+      window.dispatchEvent(new Event("authChange"));
+
       alert("Registration Successful");
-      console.log(res.json);
-      
+      navigate("/");
+
+
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      alert(error.response?.data?.message || "Registration Failed");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-md">
+        <h2 className="text-3xl font-bold text-center mb-2">Create Account</h2>
 
-        <h2 className="text-3xl font-bold text-center mb-2">
-          Create Account
-        </h2>
-
-        <p className="text-gray-500 text-center mb-6">
-          Join College Compass
-        </p>
+        <p className="text-gray-500 text-center mb-6">Join College Compass</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-
           <input
             type="text"
             name="fullName"
